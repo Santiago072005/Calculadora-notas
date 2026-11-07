@@ -113,6 +113,6 @@ Asistente usado: Claude (modo agente), en sesiones separadas: una para revisar e
 
 ## Reflexión final (5 a 8 líneas)
 
-> Borrador: reescríbelo con tus palabras antes de entregar, porque debes poder explicarlo.
+>
 
-El asistente me ayudó más a encontrar huecos en mis pruebas antes de escribir el código: me señaló el porcentaje negativo, el orden de las validaciones y el tipo `float` del resultado. La implementación le salió bien a la primera, pero eso no significaba que estuviera completa: fue una prueba nueva, escrita a partir de una sugerencia suya, la que atrapó el mensaje que mostraba «100» cuando la suma era 99.999999. Rechacé validar `NaN` y tipos no numéricos porque eso le toca a la capa de consola, aunque lo dejé anotado como riesgo. En la próxima funcionalidad escribiría primero los ejemplos con números reales y revisaría los mensajes de error con el mismo cuidado que los resultados.
+El asistente me ayudó más a pensar en casos de prueba que yo no había visto, como un porcentaje negativo o qué error debe salir primero cuando hay dos a la vez. El código que generó pasó todas las pruebas a la primera, y yo las ejecuté en mi computador para comprobarlo. Aun así, una sugerencia suya me llevó a escribir una prueba nueva, y esa prueba atrapó un error: el mensaje decía «suman 100 %» cuando la suma real era 99.999999. Lo corregí cambiando el formato del número. No acepté validar `NaN` ni crear una excepción propia, porque era más código del que necesita un programa pequeño y lo de `NaN` le toca a la consola. La próxima vez probaría el programa con datos reales desde el principio y revisaría los mensajes de error con el mismo cuidado que los resultados.
