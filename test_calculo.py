@@ -111,3 +111,9 @@ def test_orden_de_validacion(notas, porcentajes, mensaje):
     # Cada caso rompe dos reglas a la vez; gana la primera de la tabla del README
     with pytest.raises(ValueError, match=mensaje):
         calcular_nota_final(notas, porcentajes)
+
+
+def test_mensaje_muestra_la_suma_con_precision_suficiente():
+    # Con el formato :g, 99.999999 se mostraría como «100» y el mensaje confundiría
+    with pytest.raises(ValueError, match="suman 99.999999 %, deben sumar 100 %"):
+        calcular_nota_final([3.0, 4.0], [50, 49.999999])
