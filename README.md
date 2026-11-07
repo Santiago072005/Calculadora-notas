@@ -45,7 +45,7 @@ def calcular_nota_final(notas: list[float], porcentajes: list[float]) -> float
 | Distinto número de notas y porcentajes | `Debe haber una nota por cada porcentaje` |
 | Una nota menor que 0 o mayor que 5 | `La nota {nota} está fuera de 0 a 5` |
 | Un porcentaje menor o igual a 0 | `Cada porcentaje debe ser mayor que 0` |
-| Los porcentajes no suman 100 | `Los porcentajes suman {suma} %, deben sumar 100 %` (`{suma}` con formato `:g`, por ejemplo `90`) |
+| Los porcentajes no suman 100 | `Los porcentajes suman {suma} %, deben sumar 100 %` (`{suma}` con formato `.10g`, por ejemplo `90`, `100.5` o `99.999999`) |
 
 **Casos límite**
 

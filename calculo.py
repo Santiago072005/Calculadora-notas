@@ -18,6 +18,6 @@ def calcular_nota_final(notas: list[float], porcentajes: list[float]) -> float:
         raise ValueError("Cada porcentaje debe ser mayor que 0")
     suma = sum(porcentajes)
     if not math.isclose(suma, 100, rel_tol=0, abs_tol=_TOLERANCIA):
-        raise ValueError(f"Los porcentajes suman {suma:g} %, deben sumar 100 %")
+        raise ValueError(f"Los porcentajes suman {suma:.10g} %, deben sumar 100 %")
     total = sum(n * p / 100 for n, p in zip(notas, porcentajes))
     return round(float(total), 2)
