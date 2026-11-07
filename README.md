@@ -71,3 +71,12 @@ def calcular_nota_final(notas: list[float], porcentajes: list[float]) -> float
 pip install pytest
 pytest
 ```
+
+### Estructura del repositorio
+
+| Archivo | Qué contiene |
+|---|---|
+| `calculo.py` | La función `calcular_nota_final` y las validaciones `validar_notas` y `validar_porcentajes` |
+| `test_calculo.py` | 21 pruebas con pytest (normales, de límite y de error) |
+| `bitacora_ia.md` | Bitácora de uso de IA y reflexión |
+| `.gitignore` | Excluye `.env`, cachés y entornos virtuales; el proyecto no usa claves |
