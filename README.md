@@ -1,8 +1,72 @@
 # Calculadora de nota final
 
-Programa pequeño en Python que recibe las notas de una materia con sus porcentajes y calcula la nota final ponderada, en escala de 0 a 5. Proyecto final del seminario de IA aplicada al ciclo de vida del software.
+## 1. Qué es
 
-Diseño (ADR-001): módulo en capas, con la lógica de cálculo en `calculo.py`, sin base de datos. La interfaz de consola (`consola.py`) llegará en otra semana.
+Programa pequeño en Python que recibe las notas de una materia con sus porcentajes y calcula la nota final ponderada, en escala de 0 a 5. Lo escribí para que los estudiantes de mi curso dejen de equivocarse al calcular a mano cuando cada componente pesa distinto (por ejemplo, parcial 30 %, taller 20 % y examen final 50 %).
+
+Estado: está lista la capa de cálculo (`calculo.py`, HU-01 con las validaciones de HU-02 y HU-03). La interfaz de consola (`consola.py`) llegará en otra semana. Diseño (ADR-001): módulo en capas, sin base de datos y sin dependencias de ejecución.
+
+## 2. Requisitos
+
+- Python 3.10 o superior.
+- Para ejecutar el programa no se necesita instalar nada más (solo usa la librería estándar).
+- Para las pruebas y el linter: `pytest`, `ruff` y `pip-audit`, con versiones fijadas en `requirements-dev.txt`.
+
+## 3. Instalación
+
+```bash
+git clone https://github.com/Santiago072005/Calculadora-notas.git
+cd Calculadora-notas
+python -m venv .venv
+# Windows: .venv\Scripts\activate     Linux o macOS: source .venv/bin/activate
+pip install -r requirements-dev.txt
+```
+
+## 4. Ejecución
+
+Por ahora la función se usa desde Python (la consola llegará después). Con el entorno activado:
+
+```bash
+python -c "from calculo import calcular_nota_final; print(calcular_nota_final([3.0, 0, 5.0], [30, 20, 50]))"
+```
+
+Debe imprimir `3.4`. Si los datos no son válidos, lanza `ValueError` con un mensaje que dice cuál dato falló.
+
+## 5. Pruebas
+
+```bash
+pytest
+```
+
+Debe terminar con `38 passed`. Para el linter y la auditoría de dependencias:
+
+```bash
+ruff check --select E,F,B,S .
+pip-audit -r requirements-dev.txt
+```
+
+## 6. Estructura
+
+| Archivo | Qué contiene |
+|---|---|
+| `calculo.py` | `calcular_nota_final`, `validar_notas` y `validar_porcentajes` |
+| `test_calculo.py` | 38 pruebas con pytest: normales, de límite, de error y de abuso |
+| `pyproject.toml` | Configuración de ruff (reglas E, F, B y S) y de pytest |
+| `requirements.txt` | Sin dependencias de ejecución |
+| `requirements-dev.txt` | Herramientas de desarrollo con versión fijada |
+| `.env.example` | Indica que el proyecto no usa variables de entorno |
+| `bitacora_ia.md` | Bitácora de uso de IA (semanas 5 y 6) |
+| `revision_seguridad.md` | Informe de revisión de código y seguridad (semana 6) |
+
+## 7. Uso de IA
+
+Usé Claude como asistente de código para revisar mis pruebas, implementar la función, hacer una segunda revisión de código y de seguridad y corregir hallazgos. Las pruebas se escribieron antes que el código, cada hallazgo de la IA se verificó ejecutando el código y ninguna prueba se modificó para que pasara. El detalle de cada sugerencia (aceptada, ajustada o rechazada) está en [`bitacora_ia.md`](bitacora_ia.md) y la revisión en [`revision_seguridad.md`](revision_seguridad.md).
+
+## 8. Autor y licencia
+
+Autor: Erik Marroquinal, estudiante del seminario de IA aplicada al ciclo de vida del software. Licencia: MIT (ver `LICENSE`).
+
+---
 
 ## Funcionalidad de la semana 5
 
@@ -23,12 +87,12 @@ def calcular_nota_final(notas: list[float], porcentajes: list[float]) -> float
 
 **Qué recibe**
 
-- `notas`: lista de notas, una por componente evaluado (parcial, taller, examen final...). Cada nota está entre 0 y 5, incluidos ambos extremos.
+- `notas`: lista o tupla de notas, una por componente evaluado (parcial, taller, examen final...). Cada nota es un número (`int` o `float`, no `bool`), finito, entre 0 y 5, incluidos ambos extremos.
 - `porcentajes`: lista de pesos, en porcentaje (30 significa 30 %), en el mismo orden que `notas`.
 
 **Qué devuelve**
 
-- La nota final, `sum(nota * porcentaje / 100)`, como `float` redondeado a 2 decimales.
+- La nota final, `sum(nota * porcentaje / 100)`, como `float` redondeado a 2 decimales, con las mitades hacia arriba (0.125 da 0.13).
 
 **Supuestos**
 
@@ -43,7 +107,9 @@ def calcular_nota_final(notas: list[float], porcentajes: list[float]) -> float
 |---|---|
 | Listas vacías | `Debe haber al menos una nota` |
 | Distinto número de notas y porcentajes | `Debe haber una nota por cada porcentaje` |
+| Una nota que no es número válido (`nan`, `inf`, `True`, texto, `None`...) | `La nota {nota!r} no es un número válido` |
 | Una nota menor que 0 o mayor que 5 | `La nota {nota} está fuera de 0 a 5` |
+| Un porcentaje que no es número válido | `El porcentaje {porcentaje!r} no es un número válido` |
 | Un porcentaje menor o igual a 0 | `Cada porcentaje debe ser mayor que 0` |
 | Los porcentajes no suman 100 | `Los porcentajes suman {suma} %, deben sumar 100 %` (`{suma}` con formato `.10g`, por ejemplo `90`, `100.5` o `99.999999`) |
 
@@ -54,6 +120,8 @@ def calcular_nota_final(notas: list[float], porcentajes: list[float]) -> float
 - Notas exactamente en 0 y en 5 (válidas); 5.5 y -0.1 (error).
 - Porcentajes con decimales que suman 100 con error de punto flotante.
 - Listas vacías y listas de distinto tamaño.
+- Datos que no son números válidos: `nan`, `inf`, `True`, texto, `None` y enteros demasiado grandes (semana 6).
+- Mitades al redondear: `0.125`, `3.125` y `2.675` dan `0.13`, `3.13` y `2.68` (semana 6).
 
 **Ejemplos**
 
@@ -71,12 +139,3 @@ def calcular_nota_final(notas: list[float], porcentajes: list[float]) -> float
 pip install pytest
 pytest
 ```
-
-### Estructura del repositorio
-
-| Archivo | Qué contiene |
-|---|---|
-| `calculo.py` | La función `calcular_nota_final` y las validaciones `validar_notas` y `validar_porcentajes` |
-| `test_calculo.py` | 21 pruebas con pytest (normales, de límite y de error) |
-| `bitacora_ia.md` | Bitácora de uso de IA y reflexión |
-| `.gitignore` | Excluye `.env`, cachés y entornos virtuales; el proyecto no usa claves |
