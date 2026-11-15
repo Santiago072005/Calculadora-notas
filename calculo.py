@@ -9,8 +9,20 @@ TOLERANCIA_SUMA = 1e-9
 DECIMALES = 2
 
 
+def _es_numero_valido(valor: object) -> bool:
+    """True si valor es int o float (no bool) y finito."""
+    return (
+        isinstance(valor, (int, float))
+        and not isinstance(valor, bool)
+        and math.isfinite(valor)
+    )
+
+
 def validar_notas(notas: list[float]) -> None:
-    """Lanza ValueError si alguna nota está fuera de 0 a 5."""
+    """Lanza ValueError si una nota no es un número válido o está fuera de 0 a 5."""
+    for nota in notas:
+        if not _es_numero_valido(nota):
+            raise ValueError(f"La nota {nota!r} no es un número válido")
     for nota in notas:
         if nota < NOTA_MINIMA or nota > NOTA_MAXIMA:
             raise ValueError(
@@ -19,7 +31,10 @@ def validar_notas(notas: list[float]) -> None:
 
 
 def validar_porcentajes(porcentajes: list[float]) -> None:
-    """Lanza ValueError si un porcentaje es <= 0 o si no suman 100."""
+    """Lanza ValueError si un porcentaje no es válido, es <= 0 o no suman 100."""
+    for porcentaje in porcentajes:
+        if not _es_numero_valido(porcentaje):
+            raise ValueError(f"El porcentaje {porcentaje!r} no es un número válido")
     if any(porcentaje <= 0 for porcentaje in porcentajes):
         raise ValueError("Cada porcentaje debe ser mayor que 0")
     suma = sum(porcentajes)
