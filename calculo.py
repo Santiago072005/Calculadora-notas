@@ -11,7 +11,16 @@ DECIMALES = 2
 
 
 def _es_numero_valido(valor: object) -> bool:
-    """True si valor es int o float (no bool) y finito."""
+    """Indica si un valor es un número que se puede usar como nota o porcentaje.
+
+    Args:
+        valor: dato a comprobar, de cualquier tipo.
+
+    Returns:
+        True si es int o float, no es bool y es finito (ni nan ni inf);
+        False en cualquier otro caso, incluidos los enteros demasiado grandes
+        para convertirse a float.
+    """
     if isinstance(valor, bool) or not isinstance(valor, (int, float)):
         return False
     try:
@@ -21,7 +30,20 @@ def _es_numero_valido(valor: object) -> bool:
 
 
 def validar_notas(notas: list[float]) -> None:
-    """Lanza ValueError si una nota no es un número válido o está fuera de 0 a 5."""
+    """Comprueba que todas las notas sean números válidos entre 0 y 5.
+
+    Args:
+        notas: notas de cada componente evaluado.
+
+    Returns:
+        None. Si todas las notas son válidas no devuelve nada.
+
+    Raises:
+        ValueError: si una nota no es un número válido («La nota {nota!r} no es
+            un número válido») o está fuera de 0 a 5 («La nota {nota} está fuera
+            de 0 a 5»). Primero se revisa el tipo de todas las notas y después
+            el rango.
+    """
     for nota in notas:
         if not _es_numero_valido(nota):
             raise ValueError(f"La nota {nota!r} no es un número válido")
@@ -33,7 +55,20 @@ def validar_notas(notas: list[float]) -> None:
 
 
 def validar_porcentajes(porcentajes: list[float]) -> None:
-    """Lanza ValueError si un porcentaje no es válido, es <= 0 o no suman 100."""
+    """Comprueba que los porcentajes sean números válidos, positivos y sumen 100.
+
+    Args:
+        porcentajes: peso de cada componente, en porcentaje (30 significa 30 %).
+
+    Returns:
+        None. Si todos los porcentajes son válidos no devuelve nada.
+
+    Raises:
+        ValueError: si un porcentaje no es un número válido, si alguno es menor
+            o igual a 0 («Cada porcentaje debe ser mayor que 0») o si la suma
+            difiere de 100 en más de 1e-9 («Los porcentajes suman {suma} %,
+            deben sumar 100 %»). Se revisan en ese orden.
+    """
     for porcentaje in porcentajes:
         if not _es_numero_valido(porcentaje):
             raise ValueError(f"El porcentaje {porcentaje!r} no es un número válido")
@@ -47,7 +82,26 @@ def validar_porcentajes(porcentajes: list[float]) -> None:
 
 
 def calcular_nota_final(notas: list[float], porcentajes: list[float]) -> float:
-    """Devuelve la nota final ponderada. Contrato completo en README.md."""
+    """Calcula la nota final ponderada de una materia.
+
+    Cada nota se multiplica por su porcentaje, se suman los aportes y el
+    resultado se redondea a 2 decimales con las mitades hacia arriba.
+
+    Args:
+        notas: notas de cada componente, entre 0 y 5 (listas o tuplas).
+        porcentajes: peso de cada componente, en el mismo orden que las notas;
+            deben ser mayores que 0 y sumar 100.
+
+    Returns:
+        La nota final como float con 2 decimales. Ejemplo: notas [3.0, 0, 5.0]
+        con porcentajes [30, 20, 50] da 3.4.
+
+    Raises:
+        ValueError: si las listas están vacías («Debe haber al menos una nota»),
+            si tienen distinto tamaño («Debe haber una nota por cada
+            porcentaje») o si alguna validación de validar_notas o de
+            validar_porcentajes falla. No devuelve ninguna nota en esos casos.
+    """
     if not notas:
         raise ValueError("Debe haber al menos una nota")
     if len(notas) != len(porcentajes):
