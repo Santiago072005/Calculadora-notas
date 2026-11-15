@@ -28,18 +28,18 @@ Las líneas son las del commit revisado, 05ad71f.
 
 | Id | Archivo y línea | Problema | Categoría | Severidad | Corrección | Commit |
 |---|---|---|---|---|---|---|
-| H-01 | calculo.py:15 | `nan` pasa la validación de rango y `calcular_nota_final([nan], [100])` devuelve `nan` | Validación de entrada (OWASP A04) | Media | `_es_numero_valido` exige número finito, antes del rango | 7349b46 (prueba en rojo: 4da2da7) |
-| H-02 | calculo.py:15 y 23 | `True` se acepta como nota (da 1.0); un texto lanza `TypeError` y no el `ValueError` del contrato | Validación de entrada (OWASP A04) | Media | Se rechazan `bool` y tipos no numéricos con `ValueError` | 7349b46 |
-| H-03 | calculo.py:12 (versión del agente) | `math.isfinite(10**400)` lanza `OverflowError` en lugar de `ValueError` | Validación de entrada | Baja | `try/except OverflowError` que devuelve «no es número válido» | 6b357cc (prueba en rojo: 336e791) |
-| H-04 | calculo.py:41 | `round()` da 0.12 para 0.125 y 2.67 para 2.675, no el redondeo esperado de una nota | Error de lógica | Media | `Decimal` con `ROUND_HALF_UP` | 4fa49a0 (prueba en rojo: fdde059) |
-| H-05 | calculo.py:40 | `zip()` sin `strict=` (B905) | Error probable | Baja | `zip(..., strict=True)` | 55ad303 |
-| H-06 | calculo.py:40 | El literal 100 se repite en lugar de `TOTAL_PORCENTAJES` | Valor mágico | Baja | Se usa la constante | 4fa49a0 |
-| H-07 | test_calculo.py:52 | Línea de 89 caracteres (E501) | Estilo | Baja | Se parte en dos líneas; misma comprobación | 3b2e1c2 |
-| H-08 | .gitignore | `.ruff_cache/` no estaba excluida | Higiene del repositorio | Baja | Se agrega al `.gitignore` | f5063c0 |
-| H-09 | raíz | No había `pyproject.toml` ni linter configurado | Configuración | Baja | Configuración de ruff (E, F, B, S) | 4866407 |
-| H-10 | raíz | `pytest` sin versión fijada y sin `.env.example` | Componentes y configuración (OWASP A05 y A06) | Media | `requirements-dev.txt` con versiones exactas y `.env.example` | 064283f |
-| H-11 | bitacora_ia.md:116 | Línea con solo `>` sobrante, visible en GitHub | Documentación | Baja | Se borra la línea | 1dd8ad6 |
-| H-12 | calculo.py:13, 22 y 33 | Docstrings de una línea, sin qué recibe, qué devuelve ni qué errores lanza | Legibilidad | Baja | Docstrings completos, comparados con el código | 673d6ac |
+| H-01 | calculo.py:15 | `nan` pasa la validación de rango y `calcular_nota_final([nan], [100])` devuelve `nan` | Validación de entrada (OWASP A04) | Media | `_es_numero_valido` exige número finito, antes del rango | 4549e27 (prueba en rojo: fb9ce04) |
+| H-02 | calculo.py:15 y 23 | `True` se acepta como nota (da 1.0); un texto lanza `TypeError` y no el `ValueError` del contrato | Validación de entrada (OWASP A04) | Media | Se rechazan `bool` y tipos no numéricos con `ValueError` | 4549e27 |
+| H-03 | calculo.py:12 (versión del agente) | `math.isfinite(10**400)` lanza `OverflowError` en lugar de `ValueError` | Validación de entrada | Baja | `try/except OverflowError` que devuelve «no es número válido» | f821ffd (prueba en rojo: e28caf0) |
+| H-04 | calculo.py:41 | `round()` da 0.12 para 0.125 y 2.67 para 2.675, no el redondeo esperado de una nota | Error de lógica | Media | `Decimal` con `ROUND_HALF_UP` | 6251a3c (prueba en rojo: deec35f) |
+| H-05 | calculo.py:40 | `zip()` sin `strict=` (B905) | Error probable | Baja | `zip(..., strict=True)` | 2d41105 |
+| H-06 | calculo.py:40 | El literal 100 se repite en lugar de `TOTAL_PORCENTAJES` | Valor mágico | Baja | Se usa la constante | 6251a3c |
+| H-07 | test_calculo.py:52 | Línea de 89 caracteres (E501) | Estilo | Baja | Se parte en dos líneas; misma comprobación | 221de1c |
+| H-08 | .gitignore | `.ruff_cache/` no estaba excluida | Higiene del repositorio | Baja | Se agrega al `.gitignore` | 5f795f8 |
+| H-09 | raíz | No había `pyproject.toml` ni linter configurado | Configuración | Baja | Configuración de ruff (E, F, B, S) | 305d65f |
+| H-10 | raíz | `pytest` sin versión fijada y sin `.env.example` | Componentes y configuración (OWASP A05 y A06) | Media | `requirements-dev.txt` con versiones exactas y `.env.example` | 89f21fc |
+| H-11 | bitacora_ia.md:116 | Línea con solo `>` sobrante, visible en GitHub | Documentación | Baja | Se borra la línea | b34452f |
+| H-12 | calculo.py:13, 22 y 33 | Docstrings de una línea, sin qué recibe, qué devuelve ni qué errores lanza | Legibilidad | Baja | Docstrings completos, comparados con el código | c97d44b |
 
 **Severidad:** alta (permite acceder o cambiar datos sin permiso, o expone secretos), media (error probable o riesgo con condiciones), baja (estilo o mantenibilidad). No hubo hallazgos de severidad alta.
 
