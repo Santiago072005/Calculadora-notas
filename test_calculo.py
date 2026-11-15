@@ -143,3 +143,12 @@ def test_error_si_un_porcentaje_no_es_un_numero_valido(porcentaje):
 
 def test_acepta_tuplas_ademas_de_listas():
     assert calcular_nota_final((3.0, 0, 5.0), (30, 20, 50)) == pytest.approx(3.4)
+
+
+def test_error_si_un_numero_entero_es_demasiado_grande_para_convertirse_a_float():
+    # 10**400 no cabe en un float: math.isfinite lanzaba OverflowError
+    gigante = 10**400
+    with pytest.raises(ValueError, match="no es un número válido"):
+        calcular_nota_final([gigante], [100])
+    with pytest.raises(ValueError, match="no es un número válido"):
+        calcular_nota_final([3.0], [gigante])
