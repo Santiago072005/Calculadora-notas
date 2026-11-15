@@ -152,3 +152,14 @@ def test_error_si_un_numero_entero_es_demasiado_grande_para_convertirse_a_float(
         calcular_nota_final([gigante], [100])
     with pytest.raises(ValueError, match="no es un número válido"):
         calcular_nota_final([3.0], [gigante])
+
+
+# ---------- Criterio de redondeo: mitades hacia arriba (semana 6) ----------
+
+@pytest.mark.parametrize("nota, esperado", [
+    (0.125, 0.13),   # round() de Python daría 0.12 (redondeo al par)
+    (3.125, 3.13),   # daría 3.12
+    (2.675, 2.68),   # daría 2.67 por la representación binaria del float
+])
+def test_redondeo_de_mitades_hacia_arriba(nota, esperado):
+    assert calcular_nota_final([nota], [100]) == esperado
