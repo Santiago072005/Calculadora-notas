@@ -97,19 +97,72 @@ Asistente usado: Claude (modo agente), en sesiones separadas: una para revisar e
 - **Verificación:** Corrí las 21 pruebas antes y después: pasan sin modificarlas, y `git diff` confirma que `test_calculo.py` no cambió en este commit.
 - **Commit relacionado:** 52ab817 (Refactor)
 
+## Entradas de la semana 6
+
+Asistente: Claude (modo agente). La revisión y el trabajo del agente se hicieron en sesiones separadas; el agente trabajó en la rama `fix/validar-numeros`.
+
+### Entrada 11
+
+- **Fecha:** 2026-11-14
+- **Prompt o sugerencia:** Prompt de revisión: «Revisa este código con tres criterios: (1) corrección y pruebas, (2) diseño y legibilidad, (3) seguridad (inyección, secretos, contraseñas, control de acceso y dependencias; si un punto no aplica, di por qué). Entrega una tabla de hallazgos con archivo:línea, problema, severidad y corrección sugerida. Separa en dos secciones los problemas SEGUROS y las SOSPECHAS. No inventes líneas ni funciones que no existan.»
+- **Decisión:** Aceptada con cambios
+- **Por qué:** La IA entregó 7 problemas seguros y 4 sospechas. Acepté los que pude reproducir y descarté 4 que eran falsos positivos (tolerancia de 1e-9, coherencia del README, validación en `consola.py` y datos personales en la bitácora). Bajé `nan` de severidad alta a media, porque la definición del informe reserva «alta» para acceso sin permiso o secretos.
+- **Verificación:** Ejecuté cada hallazgo en Python: `nan` devuelve `nan`, `True` da 1.0, `'3'` lanza `TypeError`, 0.125 da 0.12 y 2.675 da 2.67. Busqué datos personales con `grep`. Todo está clasificado en la sección 3 de `revision_seguridad.md`.
+- **Commit relacionado:** 1dd8ad6 al 673d6ac (correcciones de la revisión)
+
+### Entrada 12
+
+- **Fecha:** 2026-11-14
+- **Prompt o sugerencia:** Instrucción delimitada al agente, en una copia de la rama `fix/validar-numeros`: «En calculo.py, haz que las 12 pruebas nuevas pasen sin romper las otras. Las notas y los porcentajes deben ser int o float, no bool y finitos; si no, lanza ValueError con el mensaje exacto que esperan las pruebas. Edita ÚNICAMENTE calculo.py; no modifiques test_calculo.py, README.md ni pyproject.toml.»
+- **Decisión:** Aceptada con cambios
+- **Por qué:** El agente agregó `_es_numero_valido` y la comprobación de tipo antes del rango y de la suma, como pedí. Revisé su diff línea por línea y vi que `math.isfinite(10**400)` lanza `OverflowError` y no `ValueError`. Escribí una prueba que lo reproduce y ajusté la función con `try/except OverflowError`.
+- **Verificación:** `diff` entre la copia del agente y la rama: solo cambió `calculo.py`; `test_calculo.py`, `README.md` y `pyproject.toml` quedaron idénticos. Las 34 pruebas pasaron con su código; con la prueba nueva fallaba una, y tras mi ajuste pasan las 35. Integré la rama con un merge `--no-ff`.
+- **Commit relacionado:** 4da2da7, 7349b46, 336e791, 6b357cc y 251921f (merge)
+
+### Entrada 13
+
+- **Fecha:** 2026-11-14
+- **Prompt o sugerencia:** Sugerencia de la revisión: «Decidir el criterio de redondeo (`Decimal` con `ROUND_HALF_UP` si se espera el redondeo escolar) y documentarlo.»
+- **Decisión:** Aceptada
+- **Por qué:** Con `round()` una nota de 3.125 daba 3.12, y quien calcula a mano espera 3.13; es justo el tipo de diferencia que el proyecto quiere evitar. Escribí primero tres pruebas (0.125, 3.125 y 2.675) y luego cambié a `Decimal(str(valor))` con `ROUND_HALF_UP`. Quedó documentado en el README y los docstrings.
+- **Verificación:** Las 3 pruebas nuevas fallaron antes del cambio y pasan después; las 35 anteriores siguen pasando sin modificarlas. Comprobé a mano que 0.125, 3.125 y 2.675 dan 0.13, 3.13 y 2.68.
+- **Commit relacionado:** fdde059 (prueba en rojo) y 4fa49a0 (cambio)
+
+### Entrada 14
+
+- **Fecha:** 2026-11-14
+- **Prompt o sugerencia:** Sugerencia de la revisión: «Un iterador como iter([3]) provoca TypeError en len(). Documentarlo o convertir con list(...).»
+- **Decisión:** Rechazada
+- **Por qué:** La firma y el contrato hablan de lista o tupla; convertir cualquier iterable con `list()` agrega comportamiento que ninguna historia pide. Lo dejé documentado en el contrato y en el docstring («listas o tuplas») y como pendiente del informe.
+- **Verificación:** Ejecuté `calcular_nota_final(iter([3.0]), [100])` y confirmé el `TypeError`; comprobé que las tuplas funcionan con una prueba nueva.
+- **Commit relacionado:** 673d6ac (docstrings) y aca8592 (README)
+
+### Entrada 15
+
+- **Fecha:** 2026-11-14
+- **Prompt o sugerencia:** Borrador de la IA: docstrings con qué hace, qué recibe, qué devuelve y qué errores lanza para `calcular_nota_final`, `validar_notas`, `validar_porcentajes` y `_es_numero_valido`.
+- **Decisión:** Aceptada
+- **Por qué:** Los borradores coinciden con el código: los mensajes de error son los reales y el orden de las comprobaciones (tipo, rango y suma) es el que aplican las funciones.
+- **Verificación:** Comparé cada docstring con el código y con las pruebas; el ejemplo `[3.0, 0, 5.0]` con `[30, 20, 50]` da 3.4 y lo probé en una carpeta limpia con los comandos del README.
+- **Commit relacionado:** 673d6ac
+
 ## Resumen
 
-| Decisión | Cantidad |
-|---|---|
-| Aceptadas | 5 (entradas 1, 2, 3, 6 y 10) |
-| Aceptadas con cambios | 3 (entradas 4, 5 y 7) |
-| Rechazadas | 2 (entradas 8 y 9) |
+| Decisión | Semana 5 (entradas 1 a 10) | Semana 6 (entradas 11 a 15) | Total |
+|---|---|---|---|
+| Aceptadas | 5 | 2 (entradas 13 y 15) | 7 |
+| Aceptadas con cambios | 3 | 2 (entradas 11 y 12) | 5 |
+| Rechazadas | 2 | 1 (entrada 14) | 3 |
 
 ## Errores que atraparon las pruebas
 
 - **Mensaje de error engañoso.** El código del asistente pasó las 20 pruebas a la primera, pero una de sus sugerencias opcionales señaló que con el formato `:g` una suma de 99.999999 se mostraría como «100». Escribí `test_mensaje_muestra_la_suma_con_precision_suficiente`, falló con «Los porcentajes suman 100 %, deben sumar 100 %» y lo corregí cambiando a `.10g` (commits ab204c7 y b123cd9).
 - **Hueco en mis propias pruebas.** La revisión del asistente mostró que con solo la prueba del porcentaje 0 una validación `if p == 0` habría pasado todo; agregué el porcentaje negativo antes del commit en rojo.
 - **No hubo ninguna prueba modificada para que el código pasara.** Las pruebas solo se ampliaron antes del primer commit y con la prueba nueva del commit ab204c7.
+
+- **Semana 6: datos que no son números.** Las 12 pruebas de abuso nuevas fallaban con el código de la semana 5: `nan` devolvía `nan`, `True` valía 1 y un texto lanzaba `TypeError` (commit 4da2da7).
+- **Semana 6: código del agente.** Al revisar su diff vi que un entero gigante lanzaba `OverflowError`; la prueba nueva falló y la corregí (336e791 y 6b357cc).
+- **Semana 6: redondeo.** Tres pruebas con 0.125, 3.125 y 2.675 fallaron con `round()` y llevaron al cambio a `Decimal` (fdde059 y 4fa49a0).
 
 ## Reflexión final de la semana 5 (5 a 8 líneas)
 
