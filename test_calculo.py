@@ -49,7 +49,8 @@ def test_todas_las_notas_en_cinco():
 
 def test_porcentajes_con_decimales_que_suman_100_en_flotante_inexacto():
     # sum([3.1, 32.8, 64.1]) da 99.99999999999999 en Python, pero suman 100
-    assert calcular_nota_final([4.0, 3.0, 5.0], [3.1, 32.8, 64.1]) == pytest.approx(4.31)
+    resultado = calcular_nota_final([4.0, 3.0, 5.0], [3.1, 32.8, 64.1])
+    assert resultado == pytest.approx(4.31)
 
 
 # ---------- Casos de error ----------
