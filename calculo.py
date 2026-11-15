@@ -1,6 +1,7 @@
 """Cálculo de la nota final ponderada (capa de cálculo del ADR-001)."""
 
 import math
+from decimal import ROUND_HALF_UP, Decimal
 
 NOTA_MINIMA = 0
 NOTA_MAXIMA = 5
@@ -53,5 +54,8 @@ def calcular_nota_final(notas: list[float], porcentajes: list[float]) -> float:
         raise ValueError("Debe haber una nota por cada porcentaje")
     validar_notas(notas)
     validar_porcentajes(porcentajes)
-    total = sum(nota * porcentaje / 100 for nota, porcentaje in zip(notas, porcentajes, strict=True))
-    return round(float(total), DECIMALES)
+    total = sum(
+        Decimal(str(nota)) * Decimal(str(porcentaje)) / TOTAL_PORCENTAJES
+        for nota, porcentaje in zip(notas, porcentajes, strict=True)
+    )
+    return float(total.quantize(Decimal(1).scaleb(-DECIMALES), rounding=ROUND_HALF_UP))
