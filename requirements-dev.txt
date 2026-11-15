@@ -1,0 +1,4 @@
+# Herramientas de desarrollo, con versión fijada
+pytest==9.1.1
+ruff==0.16.9
+pip-audit==2.10.1

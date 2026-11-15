@@ -1,0 +1,1 @@
+# Sin dependencias de ejecución: calculo.py usa solo la librería estándar (ADR-001).
