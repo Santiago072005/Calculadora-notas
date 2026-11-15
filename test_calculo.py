@@ -2,6 +2,8 @@
 
 Se escribieron antes que la implementación (ver historial de git).
 """
+import re
+
 import pytest
 
 from calculo import calcular_nota_final
@@ -118,3 +120,26 @@ def test_mensaje_muestra_la_suma_con_precision_suficiente():
     # Con el formato :g, 99.999999 se mostraría como «100» y el mensaje confundiría
     with pytest.raises(ValueError, match="suman 99.999999 %, deben sumar 100 %"):
         calcular_nota_final([3.0, 4.0], [50, 49.999999])
+
+
+# ---------- Pruebas de abuso: datos que no son números válidos (semana 6) ----------
+
+DATOS_NO_NUMERICOS = [float("nan"), float("inf"), -float("inf"), True, "3", None]
+
+
+@pytest.mark.parametrize("nota", DATOS_NO_NUMERICOS)
+def test_error_si_una_nota_no_es_un_numero_valido(nota):
+    mensaje = f"La nota {nota!r} no es un número válido"
+    with pytest.raises(ValueError, match=re.escape(mensaje)):
+        calcular_nota_final([nota], [100])
+
+
+@pytest.mark.parametrize("porcentaje", DATOS_NO_NUMERICOS)
+def test_error_si_un_porcentaje_no_es_un_numero_valido(porcentaje):
+    mensaje = f"El porcentaje {porcentaje!r} no es un número válido"
+    with pytest.raises(ValueError, match=re.escape(mensaje)):
+        calcular_nota_final([3.0], [porcentaje])
+
+
+def test_acepta_tuplas_ademas_de_listas():
+    assert calcular_nota_final((3.0, 0, 5.0), (30, 20, 50)) == pytest.approx(3.4)
