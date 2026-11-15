@@ -53,5 +53,5 @@ def calcular_nota_final(notas: list[float], porcentajes: list[float]) -> float:
         raise ValueError("Debe haber una nota por cada porcentaje")
     validar_notas(notas)
     validar_porcentajes(porcentajes)
-    total = sum(nota * porcentaje / 100 for nota, porcentaje in zip(notas, porcentajes))
+    total = sum(nota * porcentaje / 100 for nota, porcentaje in zip(notas, porcentajes, strict=True))
     return round(float(total), DECIMALES)
