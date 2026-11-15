@@ -11,11 +11,12 @@ DECIMALES = 2
 
 def _es_numero_valido(valor: object) -> bool:
     """True si valor es int o float (no bool) y finito."""
-    return (
-        isinstance(valor, (int, float))
-        and not isinstance(valor, bool)
-        and math.isfinite(valor)
-    )
+    if isinstance(valor, bool) or not isinstance(valor, (int, float)):
+        return False
+    try:
+        return math.isfinite(valor)
+    except OverflowError:  # un entero demasiado grande para convertirse a float
+        return False
 
 
 def validar_notas(notas: list[float]) -> None:
