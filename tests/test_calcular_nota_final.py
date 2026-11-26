@@ -34,6 +34,11 @@ from calculo import calcular_nota_final
         pytest.param([0, 0], [50, 50], 0.0, id="R3-P8"),
         # R3-P9: todo en 5
         pytest.param([5, 5], [40, 60], 5.0, id="R3-P9"),
+        # R3-M1 (hallado al romper el código): 2.675 en binario es 2.67499999...,
+        # pero la regla pide redondear lo que se ve: 2.675 -> 2.68
+        pytest.param([2.675], [100], 2.68, id="R3-M1"),
+        # R3-M2 (hallado al romper el código): igual que M1 con 1.005 -> 1.01
+        pytest.param([1.005], [100], 1.01, id="R3-M2"),
         # R3-L1: mínimo posible
         pytest.param([0], [100], 0.0, id="R3-L1"),
         # R3-L6: extremos 0 y 5

@@ -76,6 +76,13 @@ def test_porcentajes_validos_devuelven_none(porcentajes):
         pytest.param(
             [50, 51], "Los porcentajes suman 101 %, deben sumar 100 %", id="R2-L9b"
         ),
+        # R2-M1 (hallado al romper el código): 3 × 33.3 suma 99.89999999999999 en
+        # float; el mensaje debe mostrarla con formato .10g, o sea 99.9
+        pytest.param(
+            [33.3, 33.3, 33.3],
+            "Los porcentajes suman 99.9 %, deben sumar 100 %",
+            id="R2-M1",
+        ),
         # R2-X1: nan junto a un valor válido
         pytest.param([50, NAN], f"El porcentaje nan {NO_VALIDO}", id="R2-X1"),
     ],
