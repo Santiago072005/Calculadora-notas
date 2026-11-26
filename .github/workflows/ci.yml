@@ -22,5 +22,10 @@ jobs:
         run: ruff check .
       - name: Pruebas y cobertura de calculo.py
         run: pytest --cov=calculo --cov-branch --cov-fail-under=90
+      # Solo en 3.12: en 3.10 pip-audit resuelve filelock 4.1.0 (17 vulnerabilidades)
+      # y la versión corregida, 4.2.1, exige Python 3.11 o superior. Es una
+      # dependencia de las herramientas de desarrollo; el programa solo usa la
+      # librería estándar.
       - name: Auditoría de dependencias
+        if: matrix.python-version == '3.12'
         run: pip-audit -r requirements-dev.txt
