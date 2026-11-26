@@ -81,6 +81,43 @@ def validar_porcentajes(porcentajes: list[float]) -> None:
         )
 
 
+def _validar_entrada(notas: list[float], porcentajes: list[float]) -> None:
+    """Aplica, en orden, todas las comprobaciones de notas y porcentajes.
+
+    Raises:
+        ValueError: con el mensaje de la primera comprobación que falla (listas
+            vacías, distinto tamaño, notas o porcentajes inválidos).
+    """
+    if not notas:
+        raise ValueError("Debe haber al menos una nota")
+    if len(notas) != len(porcentajes):
+        raise ValueError("Debe haber una nota por cada porcentaje")
+    validar_notas(notas)
+    validar_porcentajes(porcentajes)
+
+
+def calcular_aportes(notas: list[float], porcentajes: list[float]) -> list[float]:
+    """Calcula cuánto aporta cada nota a la nota final (nota * porcentaje / 100).
+
+    Args:
+        notas: notas de cada componente, entre 0 y 5 (listas o tuplas).
+        porcentajes: peso de cada componente, en el mismo orden que las notas;
+            deben ser mayores que 0 y sumar 100.
+
+    Returns:
+        Un aporte por componente, sin redondear. Ejemplo: notas [3.0, 0, 5.0]
+        con porcentajes [30, 20, 50] da [0.9, 0.0, 2.5].
+
+    Raises:
+        ValueError: las mismas que calcular_nota_final.
+    """
+    _validar_entrada(notas, porcentajes)
+    return [
+        float(Decimal(str(nota)) * Decimal(str(porcentaje)) / TOTAL_PORCENTAJES)
+        for nota, porcentaje in zip(notas, porcentajes, strict=True)
+    ]
+
+
 def calcular_nota_final(notas: list[float], porcentajes: list[float]) -> float:
     """Calcula la nota final ponderada de una materia.
 
@@ -102,12 +139,7 @@ def calcular_nota_final(notas: list[float], porcentajes: list[float]) -> float:
             porcentaje») o si alguna validación de validar_notas o de
             validar_porcentajes falla. No devuelve ninguna nota en esos casos.
     """
-    if not notas:
-        raise ValueError("Debe haber al menos una nota")
-    if len(notas) != len(porcentajes):
-        raise ValueError("Debe haber una nota por cada porcentaje")
-    validar_notas(notas)
-    validar_porcentajes(porcentajes)
+    _validar_entrada(notas, porcentajes)
     total = sum(
         Decimal(str(nota)) * Decimal(str(porcentaje)) / TOTAL_PORCENTAJES
         for nota, porcentaje in zip(notas, porcentajes, strict=True)

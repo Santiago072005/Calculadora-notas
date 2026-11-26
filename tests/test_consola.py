@@ -31,7 +31,8 @@ def test_leer_numero_repite_la_pregunta_si_no_es_numero():
 
 def test_leer_entero_pide_un_entero_positivo():
     salida = []
-    cantidad = consola.leer_entero("Cuántas: ", guion("0", "x", "2.5", "3"), salida.append)
+    respuestas = guion("0", "x", "2.5", "3")
+    cantidad = consola.leer_entero("Cuántas: ", respuestas, salida.append)
     assert cantidad == 3
     assert len(salida) == 3
 
