@@ -4,7 +4,7 @@
 
 Programa pequeño en Python que recibe las notas de una materia con sus porcentajes y calcula la nota final ponderada, en escala de 0 a 5. Lo escribí para que los estudiantes de mi curso dejen de equivocarse al calcular a mano cuando cada componente pesa distinto (por ejemplo, parcial 30 %, taller 20 % y examen final 50 %).
 
-Estado: está lista la capa de cálculo (`calculo.py`, HU-01 con las validaciones de HU-02 y HU-03). La interfaz de consola (`consola.py`) llegará en otra semana. Diseño (ADR-001): módulo en capas, sin base de datos y sin dependencias de ejecución.
+Estado: está lista la capa de cálculo (`calculo.py`, HU-01 con las validaciones de HU-02 y HU-03 y el aporte de cada nota, HU-04) y la interfaz de consola (`consola.py`). Diseño (ADR-001): módulo en capas, sin base de datos y sin dependencias de ejecución.
 
 ## 2. Requisitos
 
@@ -24,7 +24,15 @@ pip install -r requirements-dev.txt
 
 ## 4. Ejecución
 
-Por ahora la función se usa desde Python (la consola llegará después). Con el entorno activado:
+Con el entorno activado (o con `.venv\Scripts\python.exe` en Windows), abre la consola interactiva:
+
+```bash
+python consola.py
+```
+
+El programa pregunta cuántas evaluaciones hay y, para cada una, su nombre, su nota (0 a 5) y su porcentaje; acepta coma decimal («4,5»). Muestra una tabla con el aporte de cada nota y la nota final, o el mensaje de error si los datos no son válidos. Ejemplo con dos evaluaciones (`4,5` al 40 % y `3` al 60 %): nota final 3.6.
+
+La función también se puede usar directamente desde Python:
 
 ```bash
 python -c "from calculo import calcular_nota_final; print(calcular_nota_final([3.0, 0, 5.0], [30, 20, 50]))"
@@ -49,7 +57,8 @@ pip-audit -r requirements-dev.txt
 
 | Archivo | Qué contiene |
 |---|---|
-| `calculo.py` | `calcular_nota_final`, `validar_notas` y `validar_porcentajes` |
+| `calculo.py` | `calcular_nota_final`, `calcular_aportes`, `validar_notas` y `validar_porcentajes` |
+| `consola.py` | Capa de consola: pide los datos y muestra el resultado o el error |
 | `test_calculo.py` | 38 pruebas con pytest: normales, de límite, de error y de abuso |
 | `pyproject.toml` | Configuración de ruff (reglas E, F, B y S) y de pytest |
 | `requirements.txt` | Sin dependencias de ejecución |
@@ -57,7 +66,7 @@ pip-audit -r requirements-dev.txt
 | `.env.example` | Indica que el proyecto no usa variables de entorno |
 | `bitacora_ia.md` | Bitácora de uso de IA (semanas 5 y 6) |
 | `revision_seguridad.md` | Informe de revisión de código y seguridad (semana 6) |
-| `tests/` | 100 pruebas por particiones, valores límite y tabla de decisión, con datos sintéticos (semana 7) |
+| `tests/` | 118 pruebas por particiones, valores límite y tabla de decisión, con datos sintéticos (semana 7) |
 | `registro_pruebas.md` | Tabla de casos, pruebas de la IA revisadas, código roto a propósito y datos de prueba (semana 7) |
 
 ## 7. Uso de IA

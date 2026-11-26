@@ -180,13 +180,25 @@ Asistente: Claude (modo agente). Para esta semana la IA recibió solo la regla (
 - **Verificación:** Rehice la cuenta de al menos cuatro cursos a mano (por ejemplo 4.5 × 5 % + 5.0 × 95 % = 4.975, que da 4.98); revisé que los nombres y teléfonos sean inventados y que ninguno sea real.
 - **Commit relacionado:** 3195efa
 
+## Entrada de la entrega final
+
+### Entrada 19
+
+- **Fecha:** 2026-11-26
+- **Prompt o sugerencia:** Pedí «que el proyecto tenga una pantalla para verlo». La IA propuso construir la capa `consola.py` del diseño (ADR-001), con la historia HU-04 (mostrar el aporte de cada nota), y escribir primero las pruebas con entradas y salidas simuladas.
+- **Resultado:** `consola.py` (pide evaluaciones, notas y porcentajes, acepta coma decimal, muestra una tabla con el aporte de cada nota y la nota final o el mensaje de error), la función `calcular_aportes` en `calculo.py` y 18 pruebas nuevas.
+- **Decisión:** Aceptada con cambios
+- **Por qué:** La prueba `test_despues_de_un_error_se_puede_calcular_otra_vez` falló en el primer intento: si la persona escribía `6`, la consola lo convertía a `6.0` y el mensaje decía «La nota 6.0 está fuera de 0 a 5». Lo que se espera es lo que la persona escribió, así que cambié el código y no la prueba: los enteros se dejan como enteros.
+- **Verificación:** 156 pruebas en verde (38 + 118) y `ruff` sin avisos. Cobertura: 100 % en `calculo.py` y 97 % en `consola.py` (solo queda sin ejecutar la línea `main()` del arranque). Corrí la consola a mano con `4,5` al 40 % y `3` al 60 %: da 1.8 + 1.8 = 3.6.
+- **Commit relacionado:** 2b10e2f (pruebas en rojo) y 4e03680 (código en verde)
+
 ## Resumen
 
-| Decisión | Semana 5 (entradas 1 a 10) | Semana 6 (entradas 11 a 15) | Semana 7 (entradas 16 a 18) | Total |
-|---|---|---|---|---|
-| Aceptadas | 5 | 2 (entradas 13 y 15) | 0 | 7 |
-| Aceptadas con cambios | 3 | 2 (entradas 11 y 12) | 3 (entradas 16, 17 y 18) | 8 |
-| Rechazadas | 2 | 1 (entrada 14) | 0 | 3 |
+| Decisión | Semana 5 (entradas 1 a 10) | Semana 6 (entradas 11 a 15) | Semana 7 (entradas 16 a 18) | Entrega final (entrada 19) | Total |
+|---|---|---|---|---|---|
+| Aceptadas | 5 | 2 (entradas 13 y 15) | 0 | 0 | 7 |
+| Aceptadas con cambios | 3 | 2 (entradas 11 y 12) | 3 (entradas 16, 17 y 18) | 1 (entrada 19) | 9 |
+| Rechazadas | 2 | 1 (entrada 14) | 0 | 0 | 3 |
 
 ## Errores que atraparon las pruebas
 
@@ -199,6 +211,8 @@ Asistente: Claude (modo agente). Para esta semana la IA recibió solo la regla (
 - **Semana 6: redondeo.** Tres pruebas con 0.125, 3.125 y 2.675 fallaron con `round()` y llevaron al cambio a `Decimal` (deec35f y 6251a3c).
 
 - **Semana 7: huecos de mis propias pruebas.** Las 83 pruebas que escribió la IA pasaron a la primera, pero al romper el código sobrevivieron dos cambios: usar `float` en vez de `Decimal` y quitar `.10g` del mensaje. Agregué R3-M1, R3-M2 y R2-M1 (commit db2cc52). No encontré ningún defecto en el código y no cambié ninguna prueba para que pasara.
+
+- **Entrega final: mensaje con el dato cambiado.** La consola convertía `6` en `6.0` y el mensaje de error lo repetía así; una prueba lo detectó y corregí el código (commit 4e03680).
 
 ## Reflexión final de la semana 5 (5 a 8 líneas)
 
