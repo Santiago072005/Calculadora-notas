@@ -1,0 +1,7 @@
+C4Context
+  title Contexto: Calculadora de nota final
+  Person(estudiante, "Estudiante", "Calcula su nota final de una materia con notas y porcentajes distintos")
+  System(calc, "Calculadora de nota final", "Valida los datos que escribe el estudiante y calcula la nota final ponderada")
+  System_Ext(pytest, "pytest", "Marco de pruebas de Python que ejecuta los casos de prueba del autor")
+  Rel(estudiante, calc, "Escribe notas y porcentajes y lee la nota final (HU-01 a HU-04)", "Terminal")
+  Rel(pytest, calc, "Llama a las funciones de cálculo y compara resultados (RNF-02)", "Llamadas a funciones Python")

@@ -1,0 +1,11 @@
+C4Container
+  title Contenedores: Calculadora de nota final
+  Person(estudiante, "Estudiante", "Quiere su nota final correcta")
+  System_Boundary(sis, "Calculadora de nota final") {
+    Container(app, "Aplicación de consola", "Python 3", "Pide notas y porcentajes, los valida, calcula la nota final y muestra el aporte de cada nota y los avisos de error (HU-01 a HU-04). Lógica separada de la interfaz")
+    Container(pruebas, "Pruebas automáticas", "Python, pytest", "Casos de RNF-02: notas 0 y 5, porcentajes que no suman 100 %, 5 ejemplos contra cálculo a mano")
+  }
+  System_Ext(pytest, "pytest", "Marco de pruebas de Python que ejecuta los casos de prueba del autor")
+  Rel(estudiante, app, "Escribe notas y porcentajes y lee el resultado", "Terminal, texto")
+  Rel(pytest, pruebas, "Descubre y corre las pruebas (RNF-02)", "Comando pytest en terminal")
+  Rel(pruebas, app, "Llama a las funciones de cálculo y validación", "Import de módulo Python")

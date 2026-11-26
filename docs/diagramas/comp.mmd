@@ -1,0 +1,11 @@
+C4Component
+  title Componentes: Aplicación de consola
+  Person(estudiante, "Estudiante", "Quiere su nota final correcta")
+  Container_Boundary(app, "Aplicación de consola") {
+    Component(consola, "consola.py", "Python, capa de interfaz", "solicitar_datos, mostrar_resultado y mostrar_error. Única parte que usa input y print")
+    Component(calculo, "calculo.py", "Python, capa de cálculo", "validar_notas, validar_porcentajes y calcular_nota_final. Funciones sin entrada ni salida por pantalla")
+  }
+  Container(pruebas, "Pruebas automáticas", "pytest", "Prueban calculo.py sin teclado")
+  Rel(estudiante, consola, "Escribe datos y lee resultado", "Terminal")
+  Rel(consola, calculo, "Envía notas y porcentajes, recibe la nota final o un error", "Llamada a función")
+  Rel(pruebas, calculo, "Verifica casos límite", "Llamada a función")

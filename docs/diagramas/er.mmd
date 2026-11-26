@@ -1,0 +1,12 @@
+erDiagram
+  CALCULO ||--|{ COMPONENTE : "contiene"
+  CALCULO {
+    int id PK
+    float nota_final
+  }
+  COMPONENTE {
+    int calculo_id PK, FK
+    string nombre PK
+    float nota
+    float porcentaje
+  }
