@@ -57,6 +57,8 @@ pip-audit -r requirements-dev.txt
 | `.env.example` | Indica que el proyecto no usa variables de entorno |
 | `bitacora_ia.md` | Bitácora de uso de IA (semanas 5 y 6) |
 | `revision_seguridad.md` | Informe de revisión de código y seguridad (semana 6) |
+| `tests/` | 100 pruebas por particiones, valores límite y tabla de decisión, con datos sintéticos (semana 7) |
+| `registro_pruebas.md` | Tabla de casos, pruebas de la IA revisadas, código roto a propósito y datos de prueba (semana 7) |
 
 ## 7. Uso de IA
 

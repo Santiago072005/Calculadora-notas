@@ -146,13 +146,47 @@ Asistente: Claude (modo agente). La revisión y el trabajo del agente se hiciero
 - **Verificación:** Comparé cada docstring con el código y con las pruebas; el ejemplo `[3.0, 0, 5.0]` con `[30, 20, 50]` da 3.4 y lo probé en una carpeta limpia con los comandos del README.
 - **Commit relacionado:** c97d44b
 
+## Entradas de la semana 7
+
+Asistente: Claude (modo agente). Para esta semana la IA recibió solo la regla (o la regla y mi tabla), nunca el código; las pruebas las ejecuté yo después. Registro completo en `registro_pruebas.md`.
+
+### Entrada 16
+
+- **Fecha:** 2026-11-25
+- **Prompt o sugerencia:** «Lee solo reglas.md (reglas de negocio de validar_notas, validar_porcentajes y calcular_nota_final). Propón particiones de equivalencia válidas e inválidas, valores límite y una tabla de decisión para la función con varias condiciones, con entrada y salida esperada calculada a mano desde la regla. No leas el código.»
+- **Resultado:** Una propuesta de unas 85 filas: 15 particiones y 9 límites para R1 y R2, 10 particiones y 9 límites para R3, y una tabla de decisión de 6 reglas (D1 a D6) con 13 casos. Marcó tres casos como «ambiguos».
+- **Decisión:** Aceptada con cambios
+- **Por qué:** Quité tres casos con lista vacía (R1-P15, R2-P15, R3-L9) porque la regla no dice qué debe pasar y el esperado era un supuesto de la IA. Cambié R2-L5 y R2-L6 para exigir solo el prefijo del mensaje, porque con `.10g` el mensaje diría «suman 100 %, deben sumar 100 %». Agregué por mi cuenta el orden de los pesos (`[5,0]` con `[80,20]`), el entero gigante y `nan` junto a valores válidos.
+- **Verificación:** Calculé a mano los esperados dudosos (0.124, 0.125, 0.126; sumas 90, 100.5, 99) y comprobé que cada fila viene de la regla del README y no del código.
+- **Commit relacionado:** 3195efa
+
+### Entrada 17
+
+- **Fecha:** 2026-11-25
+- **Prompt o sugerencia:** «Con reglas.md y tabla_revisada.md escribe pruebas pytest en tests/: `parametrize` con un comentario por fila con el ID, `pytest.approx` o igualdad según corresponda, `pytest.raises(ValueError, match=...)` con el mensaje exacto, esperados fijos. No abras calculo.py y no modifiques ningún archivo fuera de tests/.»
+- **Resultado:** Tres archivos con 83 pruebas (R1, R2, R3), todas en verde a la primera.
+- **Decisión:** Aceptada con cambios
+- **Por qué:** Descarté R3-D6 porque repite R3-P1. Conservé la igualdad exacta en R3 en vez de `approx` porque con la tolerancia 0.12 y 0.13 casi no se distinguen. Como todo pasó a la primera, no confié en eso: rompí el código a propósito (15 cambios, uno a la vez). Dos cambios sobrevivieron (usar `float` en vez de `Decimal`, y quitar el formato `.10g` del mensaje), así que agregué R3-M1, R3-M2 y R2-M1 y volví a romper el código para ver que ahora fallan.
+- **Verificación:** 100 pruebas en `tests/` en verde y las 38 anteriores sin cambios; cada cambio se deshizo con `git restore calculo.py` y `git status` quedó limpio.
+- **Commit relacionado:** 3195efa y db2cc52
+
+### Entrada 18
+
+- **Fecha:** 2026-11-25
+- **Prompt o sugerencia:** «Genera datos sintéticos de contexto colombiano, sin personas reales, con teléfonos falsos y casos difíciles (tilde, ñ, apóstrofo, texto vacío, nota 0), como una fixture de pytest, con el esperado calculado a mano.»
+- **Resultado:** `tests/conftest.py` con 10 cursos ficticios y siete textos que alguien podría teclear como nota («4,5», «», «cinco»...), y una prueba con un bucle `for` para cada grupo.
+- **Decisión:** Aceptada con cambios
+- **Por qué:** Los datos y los esperados estaban bien, pero con el bucle el primer fallo escondía los demás. Cambié a fixtures con `params` para que cada curso y cada texto sea una prueba con nombre, y borré una fixture que quedó sin uso.
+- **Verificación:** Rehice la cuenta de al menos cuatro cursos a mano (por ejemplo 4.5 × 5 % + 5.0 × 95 % = 4.975, que da 4.98); revisé que los nombres y teléfonos sean inventados y que ninguno sea real.
+- **Commit relacionado:** 3195efa
+
 ## Resumen
 
-| Decisión | Semana 5 (entradas 1 a 10) | Semana 6 (entradas 11 a 15) | Total |
-|---|---|---|---|
-| Aceptadas | 5 | 2 (entradas 13 y 15) | 7 |
-| Aceptadas con cambios | 3 | 2 (entradas 11 y 12) | 5 |
-| Rechazadas | 2 | 1 (entrada 14) | 3 |
+| Decisión | Semana 5 (entradas 1 a 10) | Semana 6 (entradas 11 a 15) | Semana 7 (entradas 16 a 18) | Total |
+|---|---|---|---|---|
+| Aceptadas | 5 | 2 (entradas 13 y 15) | 0 | 7 |
+| Aceptadas con cambios | 3 | 2 (entradas 11 y 12) | 3 (entradas 16, 17 y 18) | 8 |
+| Rechazadas | 2 | 1 (entrada 14) | 0 | 3 |
 
 ## Errores que atraparon las pruebas
 
@@ -163,6 +197,8 @@ Asistente: Claude (modo agente). La revisión y el trabajo del agente se hiciero
 - **Semana 6: datos que no son números.** Las 12 pruebas de abuso nuevas fallaban con el código de la semana 5: `nan` devolvía `nan`, `True` valía 1 y un texto lanzaba `TypeError` (commit fb9ce04).
 - **Semana 6: código del agente.** Al revisar su diff vi que un entero gigante lanzaba `OverflowError`; la prueba nueva falló y la corregí (e28caf0 y f821ffd).
 - **Semana 6: redondeo.** Tres pruebas con 0.125, 3.125 y 2.675 fallaron con `round()` y llevaron al cambio a `Decimal` (deec35f y 6251a3c).
+
+- **Semana 7: huecos de mis propias pruebas.** Las 83 pruebas que escribió la IA pasaron a la primera, pero al romper el código sobrevivieron dos cambios: usar `float` en vez de `Decimal` y quitar `.10g` del mensaje. Agregué R3-M1, R3-M2 y R2-M1 (commit db2cc52). No encontré ningún defecto en el código y no cambié ninguna prueba para que pasara.
 
 ## Reflexión final de la semana 5 (5 a 8 líneas)
 
