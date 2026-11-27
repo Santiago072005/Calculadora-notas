@@ -2,9 +2,9 @@
 
 **Fecha:** 2026-11-26
 **Duración aproximada:** 6 minutos
-**Entrevistadora:** Erik Marroquinal (autor del proyecto)
+**Entrevistador:** Erick Santiago Marroquin Aldana (autor del proyecto)
 **Persona entrevistada:** una prima del autor, estudiante de Dibujo Arquitectónico en el SENA. Es una persona real; no se registra su nombre.
-**Autorización para usar sus respuestas en el informe, sin su nombre:** <mark>PENDIENTE: confirmar que la persona aceptó</mark>
+**Autorización para usar sus respuestas en el informe, sin su nombre:** Sí, la persona aceptó (confirmado por el autor el 2026-11-26)
 **Cuándo se hizo:** después de construir el proyecto. Sirve para contrastar los requisitos con una usuaria real, no los originó (los requisitos salen de la propuesta del módulo 1). Es una sola persona, así que no es una muestra representativa.
 
 Las respuestas están copiadas tal como las dio, sin cambios.

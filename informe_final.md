@@ -1,7 +1,7 @@
 # Informe final del proyecto integrador
 
 Proyecto: Calculadora de nota final ponderada (Python)  
-Estudiante: Erik Marroquinal  
+Estudiante: Erick Santiago Marroquin Aldana  
 Repositorio: [github.com/Santiago072005/Calculadora-notas](https://github.com/Santiago072005/Calculadora-notas)  
 Fecha: 2026-11-26
 
@@ -93,7 +93,7 @@ Asocio cada semana de trabajo con la fase por su contenido: la semana 5 es códi
 |---|---|---|
 | Datos personales (Ley 1581 de 2012) | El programa no guarda nombres, códigos ni contraseñas (ADR-001, sin base de datos). Las pruebas usan solo datos sintéticos: nombres y teléfonos inventados, con casos difíciles como tildes, ñ y apóstrofo. Busqué correos, teléfonos, cédulas y claves en el repositorio y en el historial de Git sin coincidencias | [registro_pruebas.md, sección 4](https://github.com/Santiago072005/Calculadora-notas/blob/main/registro_pruebas.md), [revision_seguridad.md](https://github.com/Santiago072005/Calculadora-notas/blob/main/revision_seguridad.md), [tests/conftest.py](https://github.com/Santiago072005/Calculadora-notas/blob/main/tests/conftest.py) |
 | Sesgo | El redondeo escolar (mitades hacia arriba) lo decidí yo y lo documenté; el `round()` por defecto de Python habría dado a estudiantes con notas como 3.125 una décima de centésima menos que su cálculo a mano. Los textos como «4,5» (coma decimal, habitual en Colombia) se rechazan con un mensaje, no se interpretan a ciegas | Commit [6251a3c](https://github.com/Santiago072005/Calculadora-notas/commit/6251a3c), prueba `texto_invalido` en [tests/](https://github.com/Santiago072005/Calculadora-notas/tree/main/tests) |
-| Transparencia | Cada sugerencia de la IA tiene una entrada en la bitácora con prompt, decisión, razón y verificación (20 entradas: 8 aceptadas, 9 aceptadas con cambios, 3 rechazadas). 33 de los 36 commits llevan la línea `Co-Authored-By: Claude` | [bitacora_ia.md](https://github.com/Santiago072005/Calculadora-notas/blob/main/bitacora_ia.md) |
+| Transparencia | Cada sugerencia de la IA tiene una entrada en la bitácora con prompt, decisión, razón y verificación (20 entradas: 8 aceptadas, 9 aceptadas con cambios, 3 rechazadas). 34 de los 37 commits llevan la línea `Co-Authored-By: Claude` | [bitacora_ia.md](https://github.com/Santiago072005/Calculadora-notas/blob/main/bitacora_ia.md) |
 | Responsabilidad | Yo respondo por el resultado: ninguna prueba se modificó para que el código pasara, cada hallazgo de la IA se ejecutó antes de aceptarlo y rechacé sugerencias que agregaban alcance (excepción propia, dejar la validación de tipos solo en la consola: la validé en `calculo.py`) | Bitácora, entradas 8, 9 y 14; [revision_seguridad.md](https://github.com/Santiago072005/Calculadora-notas/blob/main/revision_seguridad.md), sección 3 |
 | Propiedad intelectual y política de uso | Licencia MIT a mi nombre. El proyecto declara que el código y los borradores los generó Claude bajo mi dirección y que yo los revisé. Las herramientas de desarrollo son pytest, ruff y pytest-cov (licencia MIT según `pip show`) y pip-audit. No copié código de terceros ni usé datos de otros estudiantes | [LICENSE](https://github.com/Santiago072005/Calculadora-notas/blob/main/LICENSE), [README, sección de uso de IA](https://github.com/Santiago072005/Calculadora-notas/blob/main/README.md) |
 

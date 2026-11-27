@@ -1,7 +1,7 @@
 # Informe de revisión de código y seguridad
 
 Proyecto: Calculadora de nota final ponderada (Python)
-Estudiante: Erik Marroquinal
+Estudiante: Erick Santiago Marroquin Aldana
 Fecha: 2026-11-14
 Commit revisado: 05ad71f (cierre de la semana 5, antes de las correcciones)
 

@@ -1,7 +1,7 @@
 # Bitácora de uso de IA
 
 Proyecto: Calculadora de nota final ponderada (Python)
-Estudiante: Erik Marroquinal
+Estudiante: Erick Santiago Marroquin Aldana
 Funcionalidad: HU-01 Calcular la nota final ponderada
 Asistente usado: Claude (modo agente), en sesiones separadas: una para revisar el contrato y las pruebas y otra para implementar; el refactor se hizo en la sesión principal
 

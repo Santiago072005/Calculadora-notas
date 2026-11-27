@@ -75,7 +75,7 @@ Usé Claude como asistente de código para revisar mis pruebas, implementar la f
 
 ## 8. Autor y licencia
 
-Autor: Erik Marroquinal, estudiante del seminario de IA aplicada al ciclo de vida del software. Licencia: MIT (ver `LICENSE`).
+Autor: Erick Santiago Marroquin Aldana, estudiante del seminario de IA aplicada al ciclo de vida del software. Licencia: MIT (ver `LICENSE`).
 
 ---
 

@@ -1,7 +1,7 @@
 # Registro de pruebas: tabla de casos y pruebas de la IA
 
 Proyecto: Calculadora de nota final ponderada
-Estudiante: Erik Marroquinal
+Estudiante: Erick Santiago Marroquin Aldana
 Fecha: 2026-11-25
 
 ## 1. Tabla de casos
