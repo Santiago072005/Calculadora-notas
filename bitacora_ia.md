@@ -202,12 +202,22 @@ Asistente: Claude (modo agente). Para esta semana la IA recibió solo la regla (
 - **Verificación:** Las respuestas están copiadas tal como las dio la persona, sin cambios. Revisé que cada fila de la tabla de requisitos cite lo que ella dijo, y que lo que no se cumple (uso en el celular, saber qué nota necesita para aprobar) quede como limitación.
 - **Commit relacionado:** commit de esta entrega
 
+### Entrada 21
+
+- **Fecha:** 2026-11-27
+- **Prompt o sugerencia:** Pedí a la IA que comparara mi repositorio y mi informe con el enunciado de la tarea final y con su rúbrica. Encontró que faltaban la guía de despliegue y el plan de operación que pide el paso 1, que el README decía «38 passed» cuando ya son 156 y que dos casos de la sección 4 no citaban commit.
+- **Resultado:** `docs/guia_despliegue.md`, `docs/plan_operacion.md`, README corregido, informe con los enlaces nuevos y el commit 18f2a03 en los casos 1 y 2.
+- **Decisión:** Aceptada con cambios
+- **Por qué:** Los faltantes eran reales. Cambié la redacción de los documentos para que digan solo lo que cumplo (un solo mantenedor, sin servidor, sin versión para celular) y en los casos 1 y 2 dejé escrito que el error y su corrección no tienen commit propio, porque ocurrieron antes de que existiera el repositorio.
+- **Verificación:** Corrí cada comando de la guía de despliegue y comprobé que los números del README y del informe coinciden con la salida de `pytest`.
+- **Commit relacionado:** commit de esta entrega
+
 ## Resumen
 
-| Decisión | Semana 5 (entradas 1 a 10) | Semana 6 (entradas 11 a 15) | Semana 7 (entradas 16 a 18) | Entrega final (entradas 19 y 20) | Total |
+| Decisión | Semana 5 (entradas 1 a 10) | Semana 6 (entradas 11 a 15) | Semana 7 (entradas 16 a 18) | Entrega final (entradas 19 a 21) | Total |
 |---|---|---|---|---|---|
 | Aceptadas | 5 | 2 (entradas 13 y 15) | 0 | 1 (entrada 20) | 8 |
-| Aceptadas con cambios | 3 | 2 (entradas 11 y 12) | 3 (entradas 16, 17 y 18) | 1 (entrada 19) | 9 |
+| Aceptadas con cambios | 3 | 2 (entradas 11 y 12) | 3 (entradas 16, 17 y 18) | 2 (entradas 19 y 21) | 10 |
 | Rechazadas | 2 | 1 (entrada 14) | 0 | 0 | 3 |
 
 ## Errores que atraparon las pruebas

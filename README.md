@@ -46,7 +46,7 @@ Debe imprimir `3.4`. Si los datos no son válidos, lanza `ValueError` con un men
 pytest
 ```
 
-Debe terminar con `38 passed`. Para el linter y la auditoría de dependencias:
+Debe terminar con `156 passed` (38 de `test_calculo.py` y 118 de `tests/`). Para el linter y la auditoría de dependencias:
 
 ```bash
 ruff check --select E,F,B,S .
@@ -63,8 +63,11 @@ pip-audit -r requirements-dev.txt
 | `pyproject.toml` | Configuración de ruff (reglas E, F, B y S) y de pytest |
 | `requirements.txt` | Sin dependencias de ejecución |
 | `requirements-dev.txt` | Herramientas de desarrollo con versión fijada |
+| `informe_final.md` y `informe_final.pdf` | Informe final integrador (semana 10) |
+| `docs/` | Documento de diseño y ADR, diagramas con su código fuente, entrevista a una usuaria, [guía de despliegue](docs/guia_despliegue.md) y [plan de operación](docs/plan_operacion.md) |
+| `.github/workflows/ci.yml` | Pipeline de CI: ruff, pytest con cobertura y pip-audit |
 | `.env.example` | Indica que el proyecto no usa variables de entorno |
-| `bitacora_ia.md` | Bitácora de uso de IA (semanas 5 y 6) |
+| `bitacora_ia.md` | Bitácora de uso de IA (semanas 5 a 10) |
 | `revision_seguridad.md` | Informe de revisión de código y seguridad (semana 6) |
 | `tests/` | 118 pruebas por particiones, valores límite y tabla de decisión, con datos sintéticos (semana 7) |
 | `registro_pruebas.md` | Tabla de casos, pruebas de la IA revisadas, código roto a propósito y datos de prueba (semana 7) |
