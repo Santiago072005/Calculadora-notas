@@ -192,11 +192,21 @@ Asistente: Claude (modo agente). Para esta semana la IA recibió solo la regla (
 - **Verificación:** 156 pruebas en verde (38 + 118) y `ruff` sin avisos. Cobertura: 100 % en `calculo.py` y 97 % en `consola.py` (solo queda sin ejecutar la línea `main()` del arranque). Corrí la consola a mano con `4,5` al 40 % y `3` al 60 %: da 1.8 + 1.8 = 3.6.
 - **Commit relacionado:** 2b10e2f (pruebas en rojo) y 4e03680 (código en verde)
 
+### Entrada 20
+
+- **Fecha:** 2026-11-26
+- **Prompt o sugerencia:** Por la prisa pedí a la IA que inventara el documento de la entrevista del módulo 2. La IA no lo hizo: explicó que sería una evidencia fabricada y propuso hacer una entrevista real, con una guía de 8 preguntas y una plantilla para anotar las respuestas textuales.
+- **Resultado:** Guía de entrevista (`guia_entrevista.md`). Entrevisté a una prima, estudiante de Dibujo Arquitectónico en el SENA, durante unos 6 minutos, y la IA armó con mis notas el documento `docs/entrevista_modulo2.md` y la tabla que lo compara con los requisitos.
+- **Decisión:** Aceptada
+- **Por qué:** Una entrevista inventada habría sido el mismo defecto que detecté en la semana 3 (requisitos con citas inventadas por la IA). La entrevista real llegó tarde, después de construir el proyecto; lo dejo dicho en el informe y no la presento como origen de los requisitos.
+- **Verificación:** Las respuestas están copiadas tal como las dio la persona, sin cambios. Revisé que cada fila de la tabla de requisitos cite lo que ella dijo, y que lo que no se cumple (uso en el celular, saber qué nota necesita para aprobar) quede como limitación.
+- **Commit relacionado:** commit de esta entrega
+
 ## Resumen
 
-| Decisión | Semana 5 (entradas 1 a 10) | Semana 6 (entradas 11 a 15) | Semana 7 (entradas 16 a 18) | Entrega final (entrada 19) | Total |
+| Decisión | Semana 5 (entradas 1 a 10) | Semana 6 (entradas 11 a 15) | Semana 7 (entradas 16 a 18) | Entrega final (entradas 19 y 20) | Total |
 |---|---|---|---|---|---|
-| Aceptadas | 5 | 2 (entradas 13 y 15) | 0 | 0 | 7 |
+| Aceptadas | 5 | 2 (entradas 13 y 15) | 0 | 1 (entrada 20) | 8 |
 | Aceptadas con cambios | 3 | 2 (entradas 11 y 12) | 3 (entradas 16, 17 y 18) | 1 (entrada 19) | 9 |
 | Rechazadas | 2 | 1 (entrada 14) | 0 | 0 | 3 |
 
